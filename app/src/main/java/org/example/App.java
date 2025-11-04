@@ -3,7 +3,7 @@ package org.example;
 import java.io.*;
 import java.util.Scanner;
 
-public class AppMain {
+public class App {
     public static void main(String[] args) {
         String inputFile = "input.txt";
         String outputFile = "output.txt";
