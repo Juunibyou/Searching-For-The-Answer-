@@ -10,6 +10,10 @@ public class ProcessText {
         "in", "of", "on", "is", "it", "that", "this"
     ));
 
+    public static boolean isStopWord(String word) {
+        return StopWords.contains(word);
+    }
+
     public static List<String> readWords(String filename) throws IOException {
         List<String> words = new ArrayList<>();
 

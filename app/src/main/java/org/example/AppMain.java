@@ -1,7 +1,7 @@
 package org.example;
 
 import java.io.*;
-import java.util.List;
+import java.util.Scanner;
 
 public class AppMain {
     public static void main(String[] args) {
@@ -10,11 +10,29 @@ public class AppMain {
 
         InvertedIndex index = new InvertedIndex();
 
-        try {
-            List<String> words = ProcessText.readWords(inputFile);
+        try (Scanner scanner = new Scanner(new File(inputFile))){
 
-            for(int i = 0; i < words.size(); i++){
-                index.addWord(words.get(i), i);
+            int position = 0;
+
+            while(scanner.hasNext()){
+                String word = scanner.next();
+                String cleanWord = "";
+
+                for(int i = 0; i < word.length(); i++){
+
+                    char c = word.charAt(i);
+                    if (Character.isLetterOrDigit(c) || c == '-') {
+                        cleanWord += Character.toLowerCase(c);
+                    }
+                }
+
+                if (!cleanWord.isEmpty()) {
+            
+                    if (!ProcessText.isStopWord(cleanWord)) {
+                        index.addWord(cleanWord, position);
+                    }
+                    position++;
+                }
             }
 
             try(PrintWriter writer = new PrintWriter(new FileWriter(outputFile))){
@@ -22,10 +40,11 @@ public class AppMain {
             }
 
             System.out.println("Inverted index: " + index);
-        } 
+            }
 
         catch (IOException e){
             System.out.println("Error: " + e.getMessage());
         }
     }
 }
+
