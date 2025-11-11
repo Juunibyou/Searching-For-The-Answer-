@@ -17,7 +17,7 @@ import java.io.StringReader;
 
 public class SampleBenchmark {
 
-    @Param({"10", "100", "1000", "10000"})
+    @Param({"10", "50", "100", "200", "500", "1000"})
     private int size;
 
     private String text;
