@@ -17,15 +17,23 @@ import java.io.StringReader;
 
 public class SampleBenchmark {
 
+    @Param({"10", "100", "1000", "10000"})
+    private int size;
+
     private String text;
 
     @Setup
     public void setup() {
-        text = "The brown cat and the blue rat live in the brown house.";
+        String base = "The brown cat and the blue rat live in the brown house. ";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            sb.append(base);
+        }
+        text = sb.toString();
     }
 
     @Benchmark
-    public void smallIndexBuild(Blackhole bh) {
+    public void indexBuild(Blackhole bh) {
         InvertedIndex index = new InvertedIndex();
         int pos = 0;
         Scanner sc = new Scanner(new StringReader(text));
@@ -36,7 +44,7 @@ public class SampleBenchmark {
             }
             pos++;
         }
-        bh.consume(index);
         sc.close();
+        bh.consume(index);
     }
 }
